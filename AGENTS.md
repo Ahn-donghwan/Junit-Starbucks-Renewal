@@ -52,62 +52,64 @@
 
 ## 현재 진행 상황
 
-사용자에게 첫 번째 과제를 제시한 상태이며 아직 완성 여부는 확인되지 않았다.
+첫 번째 과제를 완료하고 테스트 통과까지 확인한 상태다.
 
-대상 파일:
-
-`src/main/java/com/team114/starbucks/domain/color/dto/in/ColorRequestDto.java`
-
-작성할 테스트 파일:
+완료한 테스트:
 
 `src/test/java/com/team114/starbucks/domain/color/dto/in/ColorRequestDtoTest.java`
 
-현재 과제:
+검증한 동작:
 
-`ColorRequestDto.toEntity()`를 호출했을 때 `colorName`이 `Color` 엔티티에 그대로 전달되는지 검증한다.
+`ColorRequestDto.toEntity()`를 호출했을 때 `colorName`이 `Color` 엔티티에 그대로 전달되는지 검증했다.
 
-사용자에게 제시한 테스트 뼈대:
+실행 환경 참고:
+
+시스템 기본 Java 24에서는 Gradle 8.13의 테스트 태스크 생성 오류가 발생한다. 설치된 Java 17을 지정하면 테스트가 통과한다.
+
+```bash
+JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test
+```
+
+두 번째 완료 과제 대상:
+
+`src/main/java/com/team114/starbucks/domain/maincategory/dto/in/CreateMainCategoryReqDto.java`
+
+완료한 테스트:
+
+`src/test/java/com/team114/starbucks/domain/maincategory/dto/in/CreateMainCategoryReqDtoTest.java`
+
+검증한 동작:
+
+`CreateMainCategoryReqDto.toEntity(mainCategoryUuid)`가 UUID, 카테고리 이름, 이미지 값을 `MainCategory` 엔티티에 모두 전달하는지 검증한다.
+
+사용자가 직접 작성했으며, UUID 기대값 불일치로 한 번 실패한 뒤 스스로 수정했다. Java 17 환경에서 테스트 통과를 확인했다.
+
+완료한 테스트의 기본 뼈대:
 
 ```java
-package com.team114.starbucks.domain.color.dto.in;
+package com.team114.starbucks.domain.maincategory.dto.in;
 
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ColorRequestDtoTest {
+class CreateMainCategoryReqDtoTest {
 
     @Test
-    void DTO를_엔티티로_변환하면_색상명이_유지된다() {
-        // given: 테스트에 필요한 데이터 준비
+    void DTO를_엔티티로_변환하면_카테고리_정보가_유지된다() {
+        // given
 
-        // when: 테스트하려는 기능 실행
+        // when
 
-        // then: 실행 결과 확인
+        // then
     }
 }
 ```
 
-사용자에게 다음 세 코드가 각각 given/when/then 중 어디에 들어갈지 생각해 보도록 안내했다.
-
-```java
-ColorRequestDto dto = ColorRequestDto.builder()
-        .colorName("Green")
-        .build();
-```
-
-```java
-Color color = dto.toEntity();
-```
-
-```java
-assertThat(color.getColorName()).isEqualTo("Green");
-```
-
-사용자가 테스트를 작성해 오면 먼저 코드를 리뷰하고 아래 명령으로 실행을 확인한다.
+두 번째 테스트를 확인한 명령:
 
 ```bash
-./gradlew test --tests ColorRequestDtoTest
+JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests CreateMainCategoryReqDtoTest
 ```
 
 ## 에이전트가 작업을 시작할 때
