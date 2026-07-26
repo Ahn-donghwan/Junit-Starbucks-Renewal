@@ -153,7 +153,7 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests GenderTest
 
 `src/main/java/com/team114/starbucks/domain/color/application/ColorServiceImpl.java`
 
-첫 Mockito 과제 `findByColorId(Long colorId)` 정상 조회를 완료했다.
+첫 Mockito 과제 `findByColorId(Long colorId)`의 정상 조회와 조회 실패 테스트를 완료했다.
 
 작성한 테스트:
 
@@ -170,6 +170,9 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests GenderTest
 - 결과 DTO의 `colorName`을 JUnit `assertEquals()`로 검증
 - `verify(colorRepository, times(1))`로 Repository 호출 횟수를 검증
 - `verify(mock)`과 `verify(mock, times(1))`이 같은 의미임을 학습하고, 학습용으로 명시적인 `times(1)`만 남겼다.
+- Repository가 `Optional.empty()`를 반환하도록 stubbing
+- `assertThrows()`와 람다식으로 `BaseException` 발생을 검증
+- 실패 상황에서도 Repository가 한 번 호출됐는지 `verify()`로 검증
 
 Java 17에서 아래 테스트 통과를 확인했다.
 
@@ -177,7 +180,7 @@ Java 17에서 아래 테스트 통과를 확인했다.
 JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests ColorServiceImplTest
 ```
 
-다음 권장 과제는 같은 `findByColorId()`에서 Repository가 `Optional.empty()`를 반환할 때 `BaseException`이 발생하는 실패 테스틤다. 새로운 개념은 mock의 빈 응답 stubbing과 서비스 예외 검증이며, Spring Context나 DB는 실행하지 말 것.
+다음 권장 과제는 `saveColor(ColorRequestDto)`의 정상 저장 테스트다. Repository의 `save()`가 저장된 `Color`를 반환하도록 stubbing하고, 반환 DTO의 색상 이름과 `save()` 호출을 검증한다. Spring Context나 DB는 실행하지 말 것.
 
 ## 에이전트가 작업을 시작할 때
 
