@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ColorRequestDtoTest {
+class ColorRequestDtoTest {
 
     @Test
     @DisplayName("DTO를 엔티티로 변환하면 색상명이 유지된다.")

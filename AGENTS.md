@@ -35,6 +35,7 @@
 8. 실패가 발생하면 정답부터 주지 말고 오류 메시지를 함께 읽으며 원인을 설명한다.
 9. 설명은 테스트 입문자가 이해할 수 있는 한국어와 짧은 코드 예시를 사용한다.
 10. 사용자의 명시적인 요청 없이 운영 코드를 변경하지 않는다.
+11. 사용자는 은행권 환경을 준비하고 있으며 AssertJ 사용 여부가 불분명하므로, 당분간 검증문은 JUnit Jupiter `Assertions`로 연습한다.
 
 ## 권장 학습 순서
 
@@ -110,6 +111,16 @@ class CreateMainCategoryReqDtoTest {
 
 ```bash
 JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests CreateMainCategoryReqDtoTest
+```
+
+세 번째 완료 과제:
+
+`src/test/java/com/team114/starbucks/domain/auth/dto/in/CreateSignUpReqDtoTest.java`
+
+`CreateSignUpReqDto.toEntity(password)`가 회원 정보, 메서드 인자로 받은 비밀번호, `ROLE_USER`를 옮기고 UUID를 생성하는지 JUnit Assertions로 검증했다. 생일은 `Instant.now()` 대신 고정된 `2000-01-01T00:00:00Z`를 사용했다.
+
+```bash
+JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests CreateSignUpReqDtoTest
 ```
 
 ## 에이전트가 작업을 시작할 때
