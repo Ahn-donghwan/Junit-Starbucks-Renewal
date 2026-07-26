@@ -147,23 +147,37 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests GenderTest
 
 ## 다음 권장 과제
 
-새 에이전트는 먼저 현재 `GenderTest` 변경과 `AGENTS.md` 변경의 커밋 여부를 사용자에게 확인한다. 그런 다음 서비스 단위 테스와 Mockito 기초로 넘어간다.
+서비스 단위 테스와 Mockito 기초로 넘어갔다.
 
 권장 대상:
 
 `src/main/java/com/team114/starbucks/domain/color/application/ColorServiceImpl.java`
 
-첫 Mockito 과제는 `findByColorId(Long colorId)`의 정상 조회로 선정한다. 단, 사용자는 Mockito를 처음 배울 가능성이 높으므로 바로 정답 코드를 주지 말고 다음을 먼저 설명한다.
+첫 Mockito 과제 `findByColorId(Long colorId)` 정상 조회를 완료했다.
+
+작성한 테스트:
+
+`src/test/java/com/team114/starbucks/domain/color/application/ColorServiceImplTest.java`
+
+학습한 내용:
 
 - 서비스 테스에서 Repository를 실제 DB 대신 mock으로 바꾸는 이유
 - `@ExtendWith(MockitoExtension.class)`
 - `@Mock ColorRepository`
 - `@InjectMocks ColorServiceImpl`
 - `when(...).thenReturn(...)`
-- 결과는 JUnit `assertEquals()`로 검증
-- 호출 여부는 `verify()`로 검증
+- `Optional.of(color)`를 mock Repository의 응답으로 stubbing
+- 결과 DTO의 `colorName`을 JUnit `assertEquals()`로 검증
+- `verify(colorRepository, times(1))`로 Repository 호출 횟수를 검증
+- `verify(mock)`과 `verify(mock, times(1))`이 같은 의미임을 학습하고, 학습용으로 명시적인 `times(1)`만 남겼다.
 
-첫 과제에서는 Spring Context나 DB를 실행하지 말 것.
+Java 17에서 아래 테스트 통과를 확인했다.
+
+```bash
+JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests ColorServiceImplTest
+```
+
+다음 권장 과제는 같은 `findByColorId()`에서 Repository가 `Optional.empty()`를 반환할 때 `BaseException`이 발생하는 실패 테스틤다. 새로운 개념은 mock의 빈 응답 stubbing과 서비스 예외 검증이며, Spring Context나 DB는 실행하지 말 것.
 
 ## 에이전트가 작업을 시작할 때
 
