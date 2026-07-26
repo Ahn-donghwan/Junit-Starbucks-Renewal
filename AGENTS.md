@@ -36,6 +36,7 @@
 9. 설명은 테스트 입문자가 이해할 수 있는 한국어와 짧은 코드 예시를 사용한다.
 10. 사용자의 명시적인 요청 없이 운영 코드를 변경하지 않는다.
 11. 사용자는 은행권 환경을 준비하고 있으며 AssertJ 사용 여부가 불분명하므로, 당분간 검증문은 JUnit Jupiter `Assertions`로 연습한다.
+12. 사용자는 일반 `@Test`와 `@ParameterizedTest`의 차이를 비교·복습하려고 일부 중복 테스트를 의도적으로 남겨 두었다. 실무 중복 기준으로 임의 삭제하지 말 것.
 
 ## 권장 학습 순서
 
@@ -129,13 +130,40 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests CreateSignUp
 
 `Gender.fromString()`의 정상 입력은 `assertEquals()`로, 알 수 없는 입력은 `assertThrows()`로 `IllegalArgumentException`과 예외 메시지를 검증했다. JUnit에 기대 예외 타입 정보를 넘기는 `IllegalArgumentException.class`와 람다식의 역할도 학습했다.
 
-이후 `@ParameterizedTest`와 `@CsvSource`를 사용해 `"남성" -> GENDER_MALE`, `"여성" -> GENDER_FEMALE`를 하나의 테스트 로직으로 검증했다. 현재 기존 `fromStringMaleSuccess()`도 남아 있어 남성 케이스가 중복되므로, 다음 정리 시 단일 남성 테스트를 제거해도 된다.
+이후 `@ParameterizedTest`와 `@CsvSource`를 사용해 `"남성" -> GENDER_MALE`, `"여성" -> GENDER_FEMALE`를 하나의 테스트 로직으로 검증했다. 기존 `fromStringMaleSuccess()`는 일반 `@Test`와 비교하기 위해 사용자가 의도적으로 남겨 두었다.
+
+현재 완성했지만 아직 커밋하지 않은 경계값 테스트:
+
+- `@NullAndEmptySource`로 `null`과 `""`를 전달한다.
+- `@ValueSource(strings = {"  ", "알 수 없음"})`로 blank와 등록되지 않은 문자열을 전달한다.
+- 모든 경우 `IllegalArgumentException`과 `"Unknown value: " + value` 메시지를 검증한다.
+- Java 17에서 `GenderTest` 전체 통과를 확인했다.
 
 ```bash
 JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests GenderTest
 ```
 
-전체 테스트 6개 중 작성한 단위 테스트 5개는 통과했다. 기존 `StarbucksApplicationTests.contextLoads()`는 테스트 환경에서 MySQL 호스트에 연결하지 못해 실패한다. 현재 단위 테스트의 실패로 판단하지 말 것.
+작성한 단위 테스트는 통과한다. 다만 전체 `test` 태스크에서 기존 `StarbucksApplicationTests.contextLoads()`는 테스트 환경의 MySQL 호스트에 연결하지 못해 실패한다. 현재 단위 테스트의 실패로 판단하지 말 것.
+
+## 다음 권장 과제
+
+새 에이전트는 먼저 현재 `GenderTest` 변경과 `AGENTS.md` 변경의 커밋 여부를 사용자에게 확인한다. 그런 다음 서비스 단위 테스와 Mockito 기초로 넘어간다.
+
+권장 대상:
+
+`src/main/java/com/team114/starbucks/domain/color/application/ColorServiceImpl.java`
+
+첫 Mockito 과제는 `findByColorId(Long colorId)`의 정상 조회로 선정한다. 단, 사용자는 Mockito를 처음 배울 가능성이 높으므로 바로 정답 코드를 주지 말고 다음을 먼저 설명한다.
+
+- 서비스 테스에서 Repository를 실제 DB 대신 mock으로 바꾸는 이유
+- `@ExtendWith(MockitoExtension.class)`
+- `@Mock ColorRepository`
+- `@InjectMocks ColorServiceImpl`
+- `when(...).thenReturn(...)`
+- 결과는 JUnit `assertEquals()`로 검증
+- 호출 여부는 `verify()`로 검증
+
+첫 과제에서는 Spring Context나 DB를 실행하지 말 것.
 
 ## 에이전트가 작업을 시작할 때
 
