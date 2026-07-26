@@ -123,6 +123,18 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests CreateMainCa
 JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests CreateSignUpReqDtoTest
 ```
 
+네 번째 완료 과제:
+
+`src/test/java/com/team114/starbucks/domain/member/enums/GenderTest.java`
+
+`Gender.fromString()`의 정상 입력은 `assertEquals()`로, 알 수 없는 입력은 `assertThrows()`로 `IllegalArgumentException`과 예외 메시지를 검증했다. JUnit에 기대 예외 타입 정보를 넘기는 `IllegalArgumentException.class`와 람다식의 역할도 학습했다.
+
+```bash
+JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests GenderTest
+```
+
+전체 테스트 6개 중 작성한 단위 테스트 5개는 통과했다. 기존 `StarbucksApplicationTests.contextLoads()`는 테스트 환경에서 MySQL 호스트에 연결하지 못해 실패한다. 현재 단위 테스트의 실패로 판단하지 말 것.
+
 ## 에이전트가 작업을 시작할 때
 
 - 먼저 이 파일과 현재 Git 상태를 확인한다.
