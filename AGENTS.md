@@ -129,6 +129,8 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests CreateSignUp
 
 `Gender.fromString()`의 정상 입력은 `assertEquals()`로, 알 수 없는 입력은 `assertThrows()`로 `IllegalArgumentException`과 예외 메시지를 검증했다. JUnit에 기대 예외 타입 정보를 넘기는 `IllegalArgumentException.class`와 람다식의 역할도 학습했다.
 
+이후 `@ParameterizedTest`와 `@CsvSource`를 사용해 `"남성" -> GENDER_MALE`, `"여성" -> GENDER_FEMALE`를 하나의 테스트 로직으로 검증했다. 현재 기존 `fromStringMaleSuccess()`도 남아 있어 남성 케이스가 중복되므로, 다음 정리 시 단일 남성 테스트를 제거해도 된다.
+
 ```bash
 JAVA_HOME=$(/usr/libexec/java_home -v 17) bash gradlew test --tests GenderTest
 ```

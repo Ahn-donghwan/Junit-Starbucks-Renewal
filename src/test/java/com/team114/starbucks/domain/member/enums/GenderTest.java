@@ -2,6 +2,8 @@ package com.team114.starbucks.domain.member.enums;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,6 +21,24 @@ class GenderTest {
 
         // then
         assertEquals(Gender.GENDER_MALE, gender);
+
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "남성, GENDER_MALE",
+            "여성, GENDER_FEMALE"
+    })
+    @DisplayName("성별 문자열을 입력하면 해당 Gender 를 반환한다.")
+    void fromStringSuccess(String value, Gender expected) {
+
+        // given
+
+        // when
+        Gender actual = Gender.fromString(value);
+
+        // then
+        assertEquals(expected, actual);
 
     }
 
