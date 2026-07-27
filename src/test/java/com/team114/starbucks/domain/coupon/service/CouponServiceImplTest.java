@@ -1,6 +1,7 @@
 package com.team114.starbucks.domain.coupon.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.team114.starbucks.common.exception.BaseException;
 import com.team114.starbucks.domain.coupon.application.CouponServiceImpl;
 import com.team114.starbucks.domain.coupon.dto.out.GetCouponResDto;
 import com.team114.starbucks.domain.coupon.entity.Coupon;
@@ -53,6 +55,21 @@ public class CouponServiceImplTest {
 		assertEquals(coupon.getValidDays(), result.getValidDays());
 		
 		verify(couponRepository, times(1)).findByCouponUuid(couponUuid);
+		
+	}
+	
+	@Test
+	@DisplayName("유효하지 않은 쿠폰 UUID로 조회하면 예외가 발생한다.")
+	void findCouponByUuidFail() {
+		
+		// given
+		String unvalidUuid = "unvalid-uuid";
+		when(couponRepository.findByCouponUuid(unvalidUuid)).thenReturn(Optional.empty());
+		
+		// when
+		// then
+		assertThrows(BaseException.class, () -> couponService.findCouponByUuid(unvalidUuid));
+		verify(couponRepository).findByCouponUuid(unvalidUuid);
 		
 	}
 
