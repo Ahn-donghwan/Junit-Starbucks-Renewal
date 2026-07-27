@@ -1,11 +1,9 @@
 package com.team114.starbucks.common.config;
 
-import com.team114.starbucks.common.exception.BaseExceptionHandlerFilter;
-import com.team114.starbucks.common.jwt.JwtAuthenticationFilter;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,7 +15,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import java.util.List;
+import com.team114.starbucks.common.jwt.JwtAuthenticationFilter;
+
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Configuration

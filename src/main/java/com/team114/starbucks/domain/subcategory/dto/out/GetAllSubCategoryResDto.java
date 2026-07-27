@@ -2,8 +2,8 @@ package com.team114.starbucks.domain.subcategory.dto.out;
 
 import com.team114.starbucks.domain.subcategory.entity.SubCategory;
 import com.team114.starbucks.domain.subcategory.vo.out.GetAllSubCategoryResVo;
+
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor

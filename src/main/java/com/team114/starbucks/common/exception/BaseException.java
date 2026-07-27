@@ -1,6 +1,7 @@
 package com.team114.starbucks.common.exception;
 
 import com.team114.starbucks.common.response.BaseResponseStatus;
+
 import lombok.Getter;
 
 @Getter

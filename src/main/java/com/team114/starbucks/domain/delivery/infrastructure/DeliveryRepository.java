@@ -1,11 +1,11 @@
 package com.team114.starbucks.domain.delivery.infrastructure;
 
-import com.team114.starbucks.domain.delivery.entity.Delivery;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.team114.starbucks.domain.delivery.entity.Delivery;
 
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 

@@ -3,11 +3,10 @@ package com.team114.starbucks.domain.coupon.dto.in;
 import com.team114.starbucks.domain.coupon.entity.Coupon;
 import com.team114.starbucks.domain.coupon.enums.DiscountType;
 import com.team114.starbucks.domain.coupon.vo.in.CreateCouponReqVo;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor

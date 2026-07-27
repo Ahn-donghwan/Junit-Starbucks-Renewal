@@ -1,32 +1,38 @@
 package com.team114.starbucks.domain.crawling;
 
-import com.team114.starbucks.domain.crawling.CrawledProductDto;
-import com.team114.starbucks.domain.product.entity.*;
-import com.team114.starbucks.domain.product.infrastructure.*;
-import com.team114.starbucks.domain.option.entity.Option;
-import com.team114.starbucks.domain.option.infrastructure.OptionRepository;
-import com.team114.starbucks.domain.maincategory.entity.*;
-import com.team114.starbucks.domain.maincategory.infrastructure.*;
-import com.team114.starbucks.domain.productcategory.entity.ProductCategory;
-import com.team114.starbucks.domain.productcategory.infrastructure.ProductCategoryRepository;
-import com.team114.starbucks.domain.subcategory.entity.*;
-import com.team114.starbucks.domain.subcategory.infrastructure.*;
-import com.team114.starbucks.domain.event.infrastructure.EventRepository;
-import com.team114.starbucks.domain.color.entity.Color;
-import com.team114.starbucks.domain.color.infrastructure.ColorRepository;
-import com.team114.starbucks.domain.size.entity.Size;
-import com.team114.starbucks.domain.size.infrastructure.SizeRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.team114.starbucks.domain.color.entity.Color;
+import com.team114.starbucks.domain.color.infrastructure.ColorRepository;
+import com.team114.starbucks.domain.event.infrastructure.EventRepository;
+import com.team114.starbucks.domain.maincategory.entity.MainCategory;
+import com.team114.starbucks.domain.maincategory.infrastructure.MainCategoryRepository;
+import com.team114.starbucks.domain.option.entity.Option;
+import com.team114.starbucks.domain.option.infrastructure.OptionRepository;
+import com.team114.starbucks.domain.product.entity.Product;
+import com.team114.starbucks.domain.product.entity.ProductDescription;
+import com.team114.starbucks.domain.product.entity.ProductThumbnail;
 import com.team114.starbucks.domain.product.enums.Brand;
 import com.team114.starbucks.domain.product.enums.ProductStatus;
+import com.team114.starbucks.domain.product.infrastructure.ProductDescriptionRepository;
+import com.team114.starbucks.domain.product.infrastructure.ProductRepository;
+import com.team114.starbucks.domain.product.infrastructure.ProductThumbnailRepository;
+import com.team114.starbucks.domain.productcategory.entity.ProductCategory;
+import com.team114.starbucks.domain.productcategory.infrastructure.ProductCategoryRepository;
+import com.team114.starbucks.domain.size.entity.Size;
+import com.team114.starbucks.domain.size.infrastructure.SizeRepository;
+import com.team114.starbucks.domain.subcategory.entity.SubCategory;
+import com.team114.starbucks.domain.subcategory.infrastructure.SubCategoryRepository;
 
-import java.time.LocalDateTime;
-import java.util.*;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service

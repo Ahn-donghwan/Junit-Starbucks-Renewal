@@ -1,10 +1,10 @@
 package com.team114.starbucks.domain.product.infrastructure;
 
-import com.team114.starbucks.domain.product.entity.ProductDescription;
-import org.springframework.data.domain.Page;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
+import com.team114.starbucks.domain.product.entity.ProductDescription;
 
 public interface ProductDescriptionRepository extends JpaRepository<ProductDescription, Long> {
 

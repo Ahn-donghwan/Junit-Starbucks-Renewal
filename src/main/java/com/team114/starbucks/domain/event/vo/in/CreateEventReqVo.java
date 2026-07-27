@@ -1,9 +1,8 @@
 package com.team114.starbucks.domain.event.vo.in;
 
-import lombok.Getter;
-import lombok.ToString;
-
 import java.time.LocalDate;
+
+import lombok.Getter;
 
 @Getter
 public class CreateEventReqVo {

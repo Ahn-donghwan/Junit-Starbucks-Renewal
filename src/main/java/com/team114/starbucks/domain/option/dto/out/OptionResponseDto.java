@@ -2,9 +2,9 @@ package com.team114.starbucks.domain.option.dto.out;
 
 import com.team114.starbucks.domain.option.entity.Option;
 import com.team114.starbucks.domain.option.vo.out.GetAllOptionResVo;
+
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public class OptionResponseDto {

@@ -1,5 +1,11 @@
 package com.team114.starbucks.domain.coupon.application;
 
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.team114.starbucks.common.exception.BaseException;
 import com.team114.starbucks.common.response.BaseResponseStatus;
 import com.team114.starbucks.domain.coupon.dto.in.CreateCouponReqDto;
@@ -10,13 +16,8 @@ import com.team114.starbucks.domain.coupon.dto.out.GetCouponResDto;
 import com.team114.starbucks.domain.coupon.dto.out.UpdateCouponResDto;
 import com.team114.starbucks.domain.coupon.entity.Coupon;
 import com.team114.starbucks.domain.coupon.infrastructure.CouponRepository;
-import com.team114.starbucks.domain.coupon.vo.out.UpdateCouponResVo;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

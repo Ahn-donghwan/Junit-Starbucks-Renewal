@@ -1,10 +1,9 @@
 package com.team114.starbucks.domain.coupon.vo.out;
 
 import com.team114.starbucks.domain.coupon.enums.DiscountType;
+
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Getter
 public class UpdateCouponResVo {
