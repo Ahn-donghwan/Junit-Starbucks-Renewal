@@ -313,6 +313,25 @@ public class CouponServiceImplTest {
 		// then
 		verify(couponRepository).deleteByCouponUuid(couponUuid);
 	}
+	
+	@Test
+	@DisplayName("couponUuid에 해당하는 쿠폰이 없으면 삭제에 실패한다.")
+	void deleteCouponFail() {
+		
+		// given
+		String wrongCouponUuid = "wrong-coupon-uuid";
+		
+		when(couponRepository.deleteByCouponUuid(wrongCouponUuid)).thenReturn(Optional.empty());
+		
+		// when
+		// then
+		BaseException exception = 
+				assertThrows(BaseException.class, () -> couponService.deleteCoupon(wrongCouponUuid));
+		
+		assertEquals(BaseResponseStatus.FAILED_TO_FIND, exception.getStatus());
+		
+		verify(couponRepository).deleteByCouponUuid(wrongCouponUuid);
+	}
 
 	private CreateCouponReqDto createCouponReqDto() {
 		return CreateCouponReqDto.builder()
