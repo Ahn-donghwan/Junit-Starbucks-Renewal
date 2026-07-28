@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -126,8 +127,8 @@ public class CouponServiceImplTest {
 		
 		// when
 		// then
-		BaseException exception = assertThrows(
-				BaseException.class, () -> couponService.saveCoupon(dto));
+		BaseException exception = 
+				assertThrows(BaseException.class, () -> couponService.saveCoupon(dto));
 		assertEquals(BaseResponseStatus.FAILED_TO_SAVE, exception.getStatus());
 		
 		verify(couponRepository).save(any(Coupon.class));
@@ -200,6 +201,36 @@ public class CouponServiceImplTest {
 	}
 	
 	@Test
+	@DisplayName("couponUuid에 해당하는 쿠폰이 없으면 수정에 실패한다.")
+	void updateCouponFailCouponNotFound() {
+		
+		// given
+		String wrongCouponUuid = "wrong-coupon-uuid";
+		
+		UpdateCouponReqDto dto = UpdateCouponReqDto.builder()
+				.couponName("수정된 쿠폰")
+				.couponDescription("수정된 설명")
+				.discountType(DiscountType.DISCOUNT_TYPE_PERCENT)
+				.discountValue(20)
+				.minOrderPrice(20000)
+				.maxDiscountPrice(2000)
+				.validDays(20L)
+				.build();
+		
+		when(couponRepository.findByCouponUuid(wrongCouponUuid)).thenReturn(Optional.empty());
+		
+		// when
+		// then
+		BaseException exception = 
+				assertThrows(BaseException.class, () -> couponService.updateCoupon(wrongCouponUuid, dto));
+		
+		assertEquals(BaseResponseStatus.FAILED_TO_FIND, exception.getStatus());
+		
+		verify(couponRepository).findByCouponUuid(wrongCouponUuid);
+		verify(couponRepository, never()).save(any(Coupon.class));
+	}
+	
+	@Test
 	@DisplayName("쿠폰 수정에 성공한다.")
 	void updateCouponSuccess() {
 		
@@ -211,6 +242,7 @@ public class CouponServiceImplTest {
 				.id(1L)
 				.couponUuid(couponUuid)
 				.name("기존 쿠폰")
+				.description("기존 설명")
 				.discountType(DiscountType.DISCOUNT_TYPE_PRICE)
 				.discountValue(1000)
 				.minOrderPrice(10000)
