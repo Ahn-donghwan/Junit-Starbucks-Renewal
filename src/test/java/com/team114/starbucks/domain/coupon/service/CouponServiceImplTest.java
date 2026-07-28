@@ -296,6 +296,23 @@ public class CouponServiceImplTest {
 		assertEquals(savedCoupon.getMaxDiscountPrice(), result.getMaxDiscountPrice());
 		assertEquals(savedCoupon.getValidDays(), result.getValidDays());
 	}
+	
+	@Test
+	@DisplayName("쿠폰 삭제에 성공한다.")
+	void deleteCouponSuccess() {
+		
+		// given
+		Coupon coupon = createCoupon();
+		String couponUuid = coupon.getCouponUuid();
+		
+		when(couponRepository.deleteByCouponUuid(couponUuid)).thenReturn(Optional.of(coupon));
+		
+		// when
+		couponService.deleteCoupon(couponUuid);
+		
+		// then
+		verify(couponRepository).deleteByCouponUuid(couponUuid);
+	}
 
 	private CreateCouponReqDto createCouponReqDto() {
 		return CreateCouponReqDto.builder()
