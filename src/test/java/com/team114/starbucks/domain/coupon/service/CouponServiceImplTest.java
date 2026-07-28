@@ -9,6 +9,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,9 +21,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.team114.starbucks.common.exception.BaseException;
+import com.team114.starbucks.common.response.BaseResponseStatus;
 import com.team114.starbucks.domain.coupon.application.CouponServiceImpl;
 import com.team114.starbucks.domain.coupon.dto.in.CreateCouponReqDto;
 import com.team114.starbucks.domain.coupon.dto.out.CreateCouponResDto;
+import com.team114.starbucks.domain.coupon.dto.out.GetAllCouponsResDto;
 import com.team114.starbucks.domain.coupon.dto.out.GetCouponResDto;
 import com.team114.starbucks.domain.coupon.entity.Coupon;
 import com.team114.starbucks.domain.coupon.enums.DiscountType;
@@ -104,6 +107,74 @@ public class CouponServiceImplTest {
 		assertEquals(coupon.getValidDays(), result.getValidDays());
 		
 		verify(couponRepository).save(any(Coupon.class));
+		
+	}
+	
+	@Test
+	@DisplayName("쿠폰 저장에 실패한다.")
+	void saveCouponFail() {
+		
+		// given
+		CreateCouponReqDto dto = createCouponReqDto();
+		
+		when(couponRepository.save(any(Coupon.class))).thenThrow(new RuntimeException());
+		
+		// when
+		// then
+		BaseException exception = assertThrows(
+				BaseException.class, () -> couponService.saveCoupon(dto));
+		assertEquals(BaseResponseStatus.FAILED_TO_SAVE, exception.getStatus());
+		
+		verify(couponRepository).save(any(Coupon.class));
+	}
+	
+	@Test
+	@DisplayName("쿠폰 전체 조회에 성공한다.")
+	void findAllCouponsSuccess() {
+		
+		// given
+		Coupon coupon1 = Coupon.builder()
+				.id(1L)
+				.couponUuid("coupon-uuid-1")
+				.name("coupon-name-1")
+				.description("coupon-description-1")
+				.discountType(DiscountType.DISCOUNT_TYPE_PRICE)
+				.discountValue(2000)
+				.minOrderPrice(10000)
+				.maxDiscountPrice(2000)
+				.validDays(30L)
+				.build();
+		
+		Coupon coupon2 = Coupon.builder()
+				.id(2L)
+				.couponUuid("coupon-uuid-2")
+				.name("coupon-name-2")
+				.description("coupon-description-2")
+				.discountType(DiscountType.DISCOUNT_TYPE_PERCENT)
+				.discountValue(10)
+				.minOrderPrice(10000)
+				.maxDiscountPrice(2000)
+				.validDays(30L)
+				.build();
+		
+		List<Coupon> coupons = List.of(coupon1, coupon2);
+		
+		when(couponRepository.findAll()).thenReturn(coupons);
+		
+		// when
+		List<GetAllCouponsResDto> result = couponService.findAllCoupons();
+		
+		// then
+		assertEquals(2, result.size());
+		
+		assertEquals(coupon1.getCouponUuid(), result.get(0).getCouponUuid());
+		assertEquals(coupon2.getCouponUuid(), result.get(1).getCouponUuid());
+		
+		assertEquals(coupon1.getName(), result.get(0).getName());
+		assertEquals(coupon2.getName(), result.get(1).getName());
+		
+		verify(couponRepository).findAll();
+		
 		
 	}
 
